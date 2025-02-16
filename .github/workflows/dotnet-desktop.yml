@@ -1,4 +1,4 @@
-name: .NET with Vue.js
+name: Deploy Vue.js to GitHub Pages
 
 on:
   push:
@@ -7,25 +7,12 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    
-    # Set up .NET
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.0.x'  # Updated to .NET 7.0
-    
-    # Build Backend
-    - name: Restore Backend dependencies
-      run: dotnet restore ./Backend/Backend.csproj
-      
-    - name: Build Backend
-      run: dotnet build ./Backend/Backend.csproj --no-restore -c Release
-      
+        
     # Set up Node.js for Frontend
     - name: Setup Node.js
       uses: actions/setup-node@v3
