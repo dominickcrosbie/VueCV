@@ -1,0 +1,53 @@
+name: .NET with Vue.js
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    # Set up .NET
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'
+    
+    # Build and test Backend
+    - name: Restore Backend dependencies
+      run: dotnet restore ./Backend/Backend.csproj
+      
+    - name: Build Backend
+      run: dotnet build ./Backend/Backend.csproj --no-restore
+      
+    # Set up Node.js for Frontend
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        
+    # Build Frontend
+    - name: Install Frontend dependencies
+      working-directory: ./Frontend
+      run: npm install
+      
+    - name: Build Frontend
+      working-directory: ./Frontend
+      run: npm run build
+      
+    # Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./Frontend/dist
+
+    # Optional: Publish .NET artifacts
+    - name: Publish .NET artifacts
+      run: dotnet publish ./Backend/Backend.csproj -c Release -o publish
