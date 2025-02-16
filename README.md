@@ -13,9 +13,5 @@ This is a one-page interactive CV built with C# and Vue.js.
 2. Install dependencies using `npm install`.
 3. Run the application using `npm run serve`.
 
-## Features
-- Interactive CV layout
-- Easy to customize
-
 ## Author
-Your Name
+Dominick Crosibe
